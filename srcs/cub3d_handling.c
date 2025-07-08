@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 16:24:46 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/08 09:14:38 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/08 18:40:43 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,3 +27,44 @@ void	handle_get_next_line(int fd, char *line)
 	close(fd);
 }
 
+int	open_file(t_cub3d **cub3d)
+{
+	(*cub3d)->fd = open((*cub3d)->file_path, O_RDONLY);
+	if ((*cub3d)->fd < 0)
+	{
+		(*cub3d)->flag = 2;
+		handle_error(ERO_OPEN_FILE);
+		return (-1);
+	}
+	return (0);
+}
+
+int	open_file_manager(t_cub3d **cub3d)
+{
+	if (open_file(cub3d) == -1)
+		return (-1);
+	check_name((*cub3d));
+	if ((*cub3d)->flag != 0)
+		return (-1);
+	return (0);
+}
+
+int	read_file_handle(t_cub3d **cub3d, char *line)
+{
+	int	ret;
+
+	handle_get_next_line((*cub3d)->fd, line);
+	if (ret == -1)
+	{
+		(*cub3d)->flag = 4;
+		handle_error(ERO_READ);
+		return (-1);
+	}
+	if (ret == 0)
+	{
+		(*cub3d)->flag = 5;
+		handle_error(ERO_MAP);
+		return (-1);
+	}
+	return (0);
+}

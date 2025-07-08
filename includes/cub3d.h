@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:51:38 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/08 09:19:10 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/08 17:46:56 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,36 @@
 # define ERO_MLX_INIT   "Error: mlx_init failed"
 
 typedef struct s_cub3d	t_cub3d;
+typedef struct s_player	t_player;
+struct s_player
+{
+	int map_x;
+	int map_y;
+};
 struct s_cub3d
 {
-    int     fd;
-    int     flag;
-    int     width;
-    int     height;
-    int     map_width;
-    int     map_height;
-    char    **map;
+    int     	fd;
+    int     	flag;
+    int     	width;
+    int     	height;
+    int     	map_width;
+    int     	map_height;
+    char    	*file_path;
+    char    	**map;
+	t_player	player;
 };
 
-int     parsing_manager(t_cub3d **cub3d, char *arg);
+
+int		ft_isspace(char c);
+int		check_access(char *line);
+int		open_file(t_cub3d **cub3d);
+int		is_acceptable_file(char *line, int skip);
+int     parsing_manager(t_cub3d **cub3d);
+int		open_file_manager(t_cub3d **cub3d);
+int		read_file_handle(t_cub3d **cub3d, char *line);
 void	handle_get_next_line(int fd, char *line);
+void	check_name(t_cub3d *cub3d);
+void	init_cub3d(t_cub3d *cub3d, char *arg);
 void    handle_error(char *_error);
 
 #endif

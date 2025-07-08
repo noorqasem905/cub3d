@@ -4,7 +4,8 @@ NAME = cub3d
 
 SRCS = 	srcs/parsing.c				\
 		srcs/cub3d_handling.c		\
-		srcs/main.c		\
+		srcs/main.c					\
+		srcs/utils.c				\
 		# srcs/cub3d.c
 all: $(NAME)
 
