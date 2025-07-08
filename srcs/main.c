@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 18:10:05 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/08 18:00:11 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/08 20:07:17 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,9 @@ void check_data_error(t_cub3d **cub3d, char *message, int flag)
 
 int	check_data_condition(char *trimmed_line, t_cub3d **cub3d, int *is_complete)
 {
+	int height;
+	
+	height = 0;
 	if (ft_strncmp(trimmed_line, "NO ", 3) == 0 || ft_strncmp(trimmed_line,
 			"SO ", 3) == 0 || ft_strncmp(trimmed_line, "WE ", 3) == 0
 		|| ft_strncmp(trimmed_line, "EA ", 3) == 0)
@@ -171,6 +174,7 @@ int	check_data_condition(char *trimmed_line, t_cub3d **cub3d, int *is_complete)
 	else if ((ft_strncmp(trimmed_line, "1", 1) == 0 || ft_strncmp(trimmed_line,
 				"0", 1) == 0 || ft_strncmp(trimmed_line, " ", 1) == 0))
 	{
+		height++;
 		if ((*is_complete) < 6 && (ft_strncmp(trimmed_line, "1", 1) == 0
 				|| ft_strncmp(trimmed_line, "0", 1) == 0
 				|| ft_strncmp(trimmed_line, " ", 1) == 0))
@@ -184,6 +188,7 @@ int	check_data_condition(char *trimmed_line, t_cub3d **cub3d, int *is_complete)
 		check_data_error(cub3d, ERO_MAP, 6);
 		return (-1);
 	}
+	(*cub3d)->map->map_height += height;
 	return (0);
 }
 
@@ -222,13 +227,17 @@ int	setup_check_map(t_cub3d **cub3d)
 	return (0);
 }
 
-int	check_map_values(t_cub3d **cub3d, char *line)
+int	check_map_values(t_cub3d **cub3d, char *line, int *is_empty)
 {
+	int	check_empty;
 	int	i;
 
 	i = 0;
+	check_empty = 1;
 	while (line[i])
 	{
+		if (!ft_isspace(line[i]))
+			check_empty = 0;
 		if (line[i] != '1' && line[i] != '0' && !ft_isspace(line[i]) && line[i] != 'N')
 			return (-1);
 		else if (line[i] == 'N' && (*cub3d)->player.map_x == -1)
@@ -237,17 +246,23 @@ int	check_map_values(t_cub3d **cub3d, char *line)
 			return (-1);
 		i++;
 	}
+	if (!check_empty && (*is_empty) == 1)
+		return (-1);
+ 	if (check_empty)
+		(*is_empty) = 1;
 	return (0);
 }
-
+//init for point and new structs you
 int		check_map(t_cub3d **cub3d)
 {
 	char	*map_line;
 	int		lock;
+	int		is_empty;
 	int		i;
 
 	lock = 0;
 	i = 0;
+	is_empty = 0;
 	close((*cub3d)->fd);
 	(*cub3d)->fd = -1;
 	if (setup_check_map(cub3d) == -1)
@@ -255,11 +270,20 @@ int		check_map(t_cub3d **cub3d)
 	map_line = get_next_line((*cub3d)->fd);
 	if (!map_line)
 		return (-1);
+	int j = (*cub3d)->map->map_height;
+	// (*cub3d)->point = malloc(sizeof(t_point **) * j + 1);
+    // if (!(*cub3d)->point)
+    // {
+    //     handle_error(ERO_MALLOC);
+    //     free(map_line);
+    //     return (-1);
+    // }
+	// printf("size %d\n", j);
 	while (map_line)
 	{
 		if (lock)
 		{
-			if(check_map_values(cub3d, map_line))
+			if(check_map_values(cub3d, map_line, &is_empty) == -1)
 			{
 				handle_get_next_line((*cub3d)->fd, map_line);
 				return (-1);
@@ -292,9 +316,11 @@ int		check_map(t_cub3d **cub3d)
 
 int	read_file(t_cub3d **cub3d)
 {
+	int		i;
 	int		is_complete;
 	char	*line;
 
+	i = 1;
 	is_complete = 0;
 	line = get_next_line((*cub3d)->fd);
 	if (!line)
@@ -309,6 +335,7 @@ int	read_file(t_cub3d **cub3d)
 			handle_get_next_line((*cub3d)->fd, line);
 			return (-1);
 		}
+		i++;
 		free(line);
 		line = get_next_line((*cub3d)->fd);
 	}
@@ -328,10 +355,19 @@ int	read_file(t_cub3d **cub3d)
 
 int	parsing_manager(t_cub3d **cub3d)
 {
-	if (open_file(cub3d) == -1)
-		return (-1);
-	if (read_file(cub3d) == -1)
-		return (-1);
+(*cub3d)->map = malloc(sizeof(t_map));
+if (!(*cub3d)->map)
+	return (-1);  // Always check malloc return
+(*cub3d)->map->map_width = 0;
+(*cub3d)->map->map_height = 0;
+if (open_file(cub3d) == -1)
+	return (-1);
+if (read_file(cub3d) == -1)
+	return (-1);
+
+printf("Map width: %d, Map height: %d\n", (*cub3d)->map->map_width, (*cub3d)->map->map_height);
+free((*cub3d)->map);
+
 	return (0);
 }
 

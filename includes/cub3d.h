@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:51:38 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/08 17:46:56 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/08 20:05:30 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,54 @@
 
 typedef struct s_cub3d	t_cub3d;
 typedef struct s_player	t_player;
+typedef struct s_map	t_map;
+typedef struct s_point	t_point;
+typedef struct s_color	t_color;
+
 struct s_player
 {
-	int map_x;
-	int map_y;
+	int 		map_x;
+	int 		map_y;
+};
+
+struct s_point
+{
+	int			x;
+	int			y;
+	int			access;
+	int			width;
+	int			height;
+};
+
+struct s_color
+{
+	int			r;
+	int			g;
+	int			b;
+};
+
+struct s_map
+{
+	int     	map_width;
+    int     	map_height;
+	char		**data;
+	char		*file_path;
+	char		*texture_north;
+	char		*texture_south;
+	char		*texture_west;
+	char		*texture_east;
+	char		*texture_sprite;
+	t_color		color_floor;
+	t_color		color_ceiling;
 };
 struct s_cub3d
 {
     int     	fd;
     int     	flag;
-    int     	width;
-    int     	height;
-    int     	map_width;
-    int     	map_height;
     char    	*file_path;
-    char    	**map;
+	t_map		*map;
 	t_player	player;
+	t_point		**point;
 };
 
 

@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:00:04 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/08 17:37:29 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/08 19:09:05 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ void	init_cub3d(t_cub3d *cub3d, char *arg)
 {
 	cub3d->fd = -1;
 	cub3d->flag = 0;
-	cub3d->width = 0;
+/* 	cub3d->width = 0;
 	cub3d->height = 0;
-	cub3d->map_width = 0;
+	cub3d->map_width = 0; */
 	cub3d->file_path = arg;
-	cub3d->map_height = 0;
-	cub3d->map = NULL;
+/* 	cub3d->map_height = 0;
+	cub3d->map = NULL; */
 	cub3d->player.map_x = -1;
 	cub3d->player.map_y = -1;
 }
