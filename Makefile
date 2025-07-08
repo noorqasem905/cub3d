@@ -4,6 +4,7 @@ NAME = cub3d
 
 SRCS = 	srcs/parsing.c				\
 		srcs/cub3d_handling.c		\
+		srcs/main.c		\
 		# srcs/cub3d.c
 all: $(NAME)
 
@@ -32,6 +33,8 @@ clean:
 
 fclean: clean
 	$(HIDE)rm -f $(NAME)
+	$(HIDE)make $(HIDED) -C libft/printf fclean
+	$(HIDE)make $(HIDED) -C libft fclean
 	$(HIDE)rm -df $(OBJS_DIR)
 
 re: fclean all

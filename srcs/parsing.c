@@ -6,17 +6,9 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:49:09 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/07 18:23:03 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/08 07:58:50 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int main(int argc)
-{
-    if (argc != 2)
-	{
-		handle_error("Error");
-		return (0);
-	}
-}

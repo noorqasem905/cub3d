@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:51:38 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/07 18:18:00 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/08 09:19:10 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,36 @@
 # include <fcntl.h>
 # include <math.h>
 # include "../libft/libft.h"
+# include "../libft/printf/ft_printf.h"
 
+# define ERO_USA        "Error: usage: ./cub3d <file.cub>"
+# define ERO_NAME_FILE  "Error: unsupported file"
+# define ERO_OPEN_FILE  "Error: failed to open file"
+# define ERO_MAP        "Error: map is invalid"
+# define ERO_MALLOC     "Error: malloc failed"
+# define ERO_FILE       "The file is not accessible or doesn't exist"
+# define ERO_READ       "Error: read failed"
+# define ERO_CLOSE      "Error: close failed"
+# define ERO_MLX        "Error: mlx failed"
+# define ERO_MLX_WIN    "Error: mlx_new_window failed"
+# define ERO_MLX_IMG    "Error: mlx_new_image failed"
+# define ERO_MLX_ADDR   "Error: mlx_get_data_addr failed"
+# define ERO_MLX_INIT   "Error: mlx_init failed"
 
-struct s_data
+typedef struct s_cub3d	t_cub3d;
+struct s_cub3d
 {
+    int     fd;
+    int     flag;
     int     width;
     int     height;
-    int     flag;
+    int     map_width;
+    int     map_height;
     char    **map;
 };
 
+int     parsing_manager(t_cub3d **cub3d, char *arg);
+void	handle_get_next_line(int fd, char *line);
+void    handle_error(char *_error);
 
 #endif
