@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:00:04 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/08 19:09:05 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/09 19:03:37 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@ void	init_cub3d(t_cub3d *cub3d, char *arg)
 {
 	cub3d->fd = -1;
 	cub3d->flag = 0;
+	cub3d->map.map_height = -1;
+	cub3d->map.map_width = -1;
+	cub3d->map.file_path = NULL;
+	cub3d->map.data = NULL;
+	cub3d->map.texture_north = NULL;
+	cub3d->map.texture_south = NULL;
+	cub3d->map.texture_west = NULL;
+	cub3d->map.texture_east = NULL;
+	cub3d->map.texture_sprite = NULL;
 /* 	cub3d->width = 0;
 	cub3d->height = 0;
 	cub3d->map_width = 0; */

@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 18:10:05 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/08 20:07:17 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/09 19:51:13 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,9 @@ int	check_data_condition(char *trimmed_line, t_cub3d **cub3d, int *is_complete)
 		check_data_error(cub3d, ERO_MAP, 6);
 		return (-1);
 	}
-	(*cub3d)->map->map_height += height;
+	if ((*cub3d)->map.map_height == -1 && height > 0)
+		(*cub3d)->map.map_height = 0;
+	(*cub3d)->map.map_height += height;
 	return (0);
 }
 
@@ -227,13 +229,34 @@ int	setup_check_map(t_cub3d **cub3d)
 	return (0);
 }
 
-int	check_map_values(t_cub3d **cub3d, char *line, int *is_empty)
+void	set_map_values(t_cub3d **cub3d, char *line, int y)
 {
+	int	x;
+	int	size;
+
+	x = 0;
+	size = ft_strlen(line);
+	while (line[x])
+	{
+		if (line[x] == 'N')
+			(*cub3d)->point[y][x].access = 2;
+		else
+			(*cub3d)->point[y][x].access = line[x] - '0';
+		(*cub3d)->point[y][x].x = x;
+		(*cub3d)->point[y][x].y = y;
+		(*cub3d)->point[y][x].width = size;
+		x++;
+	}
+}
+int	check_map_values(t_cub3d **cub3d, char *line, int *is_empty, int y)
+{
+	int	size;
 	int	check_empty;
 	int	i;
 
 	i = 0;
 	check_empty = 1;
+	size = ft_strlen(line);
 	while (line[i])
 	{
 		if (!ft_isspace(line[i]))
@@ -250,18 +273,46 @@ int	check_map_values(t_cub3d **cub3d, char *line, int *is_empty)
 		return (-1);
  	if (check_empty)
 		(*is_empty) = 1;
+ 	if (check_empty == 0)
+	{
+		(*cub3d)->map.map_width = size;
+		(*cub3d)->point[y] = (t_point *)malloc((sizeof(t_point)) * (size));
+		if (!(*cub3d)->point[y])
+		{
+			handle_error(ERO_MALLOC);
+			return (-1);
+		}
+		set_map_values(cub3d, line, y);
+	}
 	return (0);
 }
-//init for point and new structs you
+
+void free_map_points(t_cub3d *cub3d)
+{
+	int	i;
+
+	i = 0;
+	if (!cub3d->point || !cub3d)
+		return ;
+	while (i < cub3d->map.map_height)
+	{
+		free(cub3d->point[i]);
+		i++;
+	}
+	free(cub3d->point);
+}
+
 int		check_map(t_cub3d **cub3d)
 {
 	char	*map_line;
-	int		lock;
 	int		is_empty;
+	int		lock;
 	int		i;
+	int		y;
 
 	lock = 0;
 	i = 0;
+	y = 0;
 	is_empty = 0;
 	close((*cub3d)->fd);
 	(*cub3d)->fd = -1;
@@ -270,25 +321,31 @@ int		check_map(t_cub3d **cub3d)
 	map_line = get_next_line((*cub3d)->fd);
 	if (!map_line)
 		return (-1);
-	int j = (*cub3d)->map->map_height;
-	// (*cub3d)->point = malloc(sizeof(t_point **) * j + 1);
-    // if (!(*cub3d)->point)
-    // {
-    //     handle_error(ERO_MALLOC);
-    //     free(map_line);
-    //     return (-1);
-    // }
-	// printf("size %d\n", j);
+	int j = (*cub3d)->map.map_height;	
+	printf("map height %d\n", j);
+	(*cub3d)->point = (t_point **)malloc(sizeof(t_point *) * (j));
+    if (!(*cub3d)->point)
+    {
+		(*cub3d)->map.map_height = y;
+        handle_error(ERO_MALLOC);
+        free(map_line);
+        return (-1);
+    }
 	while (map_line)
 	{
 		if (lock)
 		{
-			if(check_map_values(cub3d, map_line, &is_empty) == -1)
+			if(check_map_values(cub3d, map_line, &is_empty, y) == -1)
 			{
+				(*cub3d)->map.map_height = y;
 				handle_get_next_line((*cub3d)->fd, map_line);
 				return (-1);
 			}
-			(*cub3d)->player.map_y = i;
+			if (is_empty == 0)
+			{
+				(*cub3d)->player.map_y = y;
+				y++;
+			}
 		}
 		else if (ft_strncmp(map_line, "1", 1) == 0 || ft_strncmp(map_line, "0", 1) == 0
 			|| ft_strncmp(map_line, " ", 1) == 0)
@@ -298,6 +355,7 @@ int		check_map(t_cub3d **cub3d)
 		}
 		else if(lock == 1)
 		{
+			(*cub3d)->map.map_height = y;
 			handle_get_next_line((*cub3d)->fd, map_line);
 			return (-1);
 		}
@@ -307,11 +365,48 @@ int		check_map(t_cub3d **cub3d)
 	}
 	if ((*cub3d)->player.map_x == -1 || (*cub3d)->player.map_y == -1)
 	{
+		(*cub3d)->map.map_height = y;
 		handle_error(ERO_MAP);
 		return (-1);
 	}
+	(*cub3d)->map.map_height = y;
 	free(map_line);
 	return (0);
+}
+
+void	frees_struct(t_point **root)
+{
+	int	i;
+
+	i = 0;
+	if (!*root | !root)
+		return ;
+	while (root[i])
+	{
+		free(root[i]);
+		i++;
+	}
+	free(root);
+	root = NULL;
+}
+
+ void print_data(t_cub3d *cub3d)
+{
+	int	i;
+	int	j;
+
+	printf("Map Width: %d\n", cub3d->map.map_width);
+	printf("Map Height: %d\n", cub3d->map.map_height);
+	printf("Player Position: (%d, %d)\n", cub3d->player.map_x, cub3d->player.map_y);
+	for (i = 0; i < cub3d->map.map_height; i++)
+	{
+		for (j = 0; j < cub3d->map.map_width; j++)
+		{
+			printf("access-> %d:", cub3d->point[i][j].access);
+			printf("(%d, %d):\n", cub3d->point[i][j].x, cub3d->point[i][j].y);
+		}
+		// printf("\n");
+	}
 }
 
 int	read_file(t_cub3d **cub3d)
@@ -346,28 +441,21 @@ int	read_file(t_cub3d **cub3d)
 	}
 	if (check_map(cub3d) == -1)
 	{
+		free_map_points(*cub3d);
 		handle_error(ERO_MAP);
 		return (-1);
 	}
+	free_map_points(*cub3d);
 	printf("Parsing completed successfully.\n");
 	return (0);
 }
 
 int	parsing_manager(t_cub3d **cub3d)
 {
-(*cub3d)->map = malloc(sizeof(t_map));
-if (!(*cub3d)->map)
-	return (-1);  // Always check malloc return
-(*cub3d)->map->map_width = 0;
-(*cub3d)->map->map_height = 0;
-if (open_file(cub3d) == -1)
-	return (-1);
-if (read_file(cub3d) == -1)
-	return (-1);
-
-printf("Map width: %d, Map height: %d\n", (*cub3d)->map->map_width, (*cub3d)->map->map_height);
-free((*cub3d)->map);
-
+	if (open_file(cub3d) == -1)
+		return (-1);
+	if (read_file(cub3d) == -1)
+		return (-1);
 	return (0);
 }
 
@@ -393,6 +481,7 @@ int	main(int argc, char **argv)
 		free(cub3d);
 		return (1);
 	}
+	print_data(cub3d);
 	close(cub3d->fd);
 	free(cub3d);
 	return (0);

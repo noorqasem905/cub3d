@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:51:38 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/08 20:05:30 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/09 19:02:28 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,10 @@
 # define ERO_MLX_ADDR   "Error: mlx_get_data_addr failed"
 # define ERO_MLX_INIT   "Error: mlx_init failed"
 
+typedef struct s_map	t_map;
+typedef struct s_row	t_row;
 typedef struct s_cub3d	t_cub3d;
 typedef struct s_player	t_player;
-typedef struct s_map	t_map;
 typedef struct s_point	t_point;
 typedef struct s_color	t_color;
 
@@ -55,6 +56,13 @@ struct s_point
 	int			height;
 };
 
+struct s_row
+{
+	int			width;
+	int			hight;
+};
+
+
 struct s_color
 {
 	int			r;
@@ -64,8 +72,8 @@ struct s_color
 
 struct s_map
 {
-	int     	map_width;
-    int     	map_height;
+	int			map_width;
+    int			map_height;
 	char		**data;
 	char		*file_path;
 	char		*texture_north;
@@ -76,13 +84,15 @@ struct s_map
 	t_color		color_floor;
 	t_color		color_ceiling;
 };
+
 struct s_cub3d
 {
     int     	fd;
     int     	flag;
     char    	*file_path;
-	t_map		*map;
+	t_map		map;
 	t_player	player;
+	t_row		*row;
 	t_point		**point;
 };
 
