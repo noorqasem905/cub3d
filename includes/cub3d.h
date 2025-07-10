@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:51:38 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/10 16:06:16 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/10 18:14:34 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ typedef struct s_color	t_color;
 
 struct s_player
 {
-	int 		map_x;
-	int 		map_y;
-};
+	int			map_x;
+	int			map_y;
+}	;
 
 struct s_point
 {
@@ -54,14 +54,13 @@ struct s_point
 	int			access;
 	int			width;
 	int			height;
-};
+}	;
 
 struct s_row
 {
 	int			width;
 	int			hight;
-};
-
+}	;
 
 struct s_color
 {
@@ -73,7 +72,7 @@ struct s_color
 struct s_map
 {
 	int			map_width;
-    int			map_height;
+	int			map_height;
 	char		**data;
 	char		*file_path;
 	char		*texture_north;
@@ -83,31 +82,57 @@ struct s_map
 	char		*texture_sprite;
 	t_color		color_floor;
 	t_color		color_ceiling;
-};
+}	;
 
 struct s_cub3d
 {
 	int			is_empty;
-    int     	fd;
-    int     	flag;
-    char    	*file_path;
+	int			fd;
+	int			flag;
+	char		*file_path;
 	t_map		map;
 	t_player	player;
 	t_row		*row;
 	t_point		**point;
-};
+}	;
 
-
-int		ft_isspace(char c);
-int		check_access(char *line);
-int		open_file(t_cub3d **cub3d);
-int		is_acceptable_file(char *line, int skip);
-int     parsing_manager(t_cub3d **cub3d);
-int		open_file_manager(t_cub3d **cub3d);
-int		read_file_handle(t_cub3d **cub3d, char *line);
-void	handle_get_next_line(int fd, char *line);
-void	check_name(t_cub3d *cub3d);
-void	init_cub3d(t_cub3d *cub3d, char *arg);
-void    handle_error(char *_error);
+int					ft_isspace(char c);
+int					check_access(char *line);
+int					open_file(t_cub3d **cub3d);
+int					is_acceptable_file(char *line, int skip);
+int					parsing_manager(t_cub3d **cub3d);
+int					open_file_manager(t_cub3d **cub3d);
+int					check_map_searching_2(t_cub3d **cub3d,
+						char *map_line, int *lock, int *y);
+int					comma_handle_color(char *line);
+int					find_std_color_formial(char *line, int *lock, int *index);
+int					handle_color_formality(char *line);
+int					check_values(char *line, int skip);
+int					handle_color_data(char *line, int skip);
+int					check_data_condition_2(char *trimmed_line,
+						t_cub3d **cub3d, int *is_complete, int *height);
+int					check_data_condition(char *trimmed_line,
+						t_cub3d **cub3d, int *is_complete);
+int					setup_check_data(char *line, t_cub3d **cub3d,
+						int *is_complete);
+int					setup_check_map(t_cub3d **cub3d, char **map_line);
+int					check_map_values_condtion(t_cub3d **cub3d, char *line,
+						int *check_empty);
+int					check_map_values(t_cub3d **cub3d, char *line, int y);
+int					check_map_condtion(t_cub3d **cub3d, char *map_line,
+						int *lock, int *y);
+int					check_map_searching(t_cub3d **cub3d, char *map_line,
+						int *lock, int *y);
+int					check_map(t_cub3d **cub3d);
+int					handle_read_file(t_cub3d **cub3d, int *is_complete);
+int					read_file(t_cub3d **cub3d);
+int					read_file_handle(t_cub3d **cub3d, char *line);
+void				handle_get_next_line(int fd, char *line);
+void				check_name(t_cub3d *cub3d);
+void				init_cub3d(t_cub3d *cub3d, char *arg);
+void				handle_error(char *_error);
+void				check_data_error(t_cub3d **cub3d, char *message, int flag);
+void				free_map_points(t_cub3d *cub3d);
+void				set_map_values(t_cub3d **cub3d, char *line, int y);
 
 #endif

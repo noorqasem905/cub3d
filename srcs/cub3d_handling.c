@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 16:24:46 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/10 15:07:59 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/10 18:20:32 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	open_file_manager(t_cub3d **cub3d)
 
 int	read_file_handle(t_cub3d **cub3d, char *line)
 {
-
 	handle_get_next_line((*cub3d)->fd, line);
 	return (0);
 }

@@ -6,7 +6,11 @@ SRCS = 	srcs/parsing.c				\
 		srcs/cub3d_handling.c		\
 		srcs/main.c					\
 		srcs/utils.c				\
-		# srcs/cub3d.c
+		srcs/check_data.c			\
+		srcs/check_map.c			\
+		srcs/setup_map.c			\
+		srcs/color_handler.c
+
 all: $(NAME)
 
 OBJS_DIR =includes/build
