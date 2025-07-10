@@ -1,5 +1,5 @@
 CC =  cc
-CFLAGS =  -g
+CFLAGS =  -g#-Wextra -Wall -Werror -g
 NAME = cub3d
 
 SRCS = 	srcs/parsing.c				\

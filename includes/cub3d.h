@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:51:38 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/09 19:02:28 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/10 16:06:16 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ struct s_map
 
 struct s_cub3d
 {
+	int			is_empty;
     int     	fd;
     int     	flag;
     char    	*file_path;

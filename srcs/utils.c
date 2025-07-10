@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:00:04 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/09 19:03:37 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/10 16:08:48 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	init_cub3d(t_cub3d *cub3d, char *arg)
 {
 	cub3d->fd = -1;
 	cub3d->flag = 0;
+	cub3d->is_empty = -1;
 	cub3d->map.map_height = -1;
 	cub3d->map.map_width = -1;
 	cub3d->map.file_path = NULL;
@@ -67,8 +68,6 @@ void	check_name(t_cub3d *cub3d)
 
 int	check_access(char *line)
 {
-	int	fd;
-
 	if (access(line, F_OK | R_OK | X_OK) == -1)
 	{
 		handle_error(ERO_FILE);
