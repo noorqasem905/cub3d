@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:49:09 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/13 21:07:33 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/13 21:23:28 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	get_map_dimensions(t_cub3d **cub3d, char *line)
 {
-	int	i;
-	int	width;
-	char *temp;
+	int		i;
+	int		width;
+	char	*temp;
 
 	i = 0;
 	width = 0;
@@ -93,9 +93,12 @@ void print(t_cub3d *cub3d)
 	printf("texture_east: %s\n", cub3d->map.texture_east);
 	printf("length of map: %d\n", cub3d->map.map_width);
 	printf("height of map: %d\n", cub3d->map.map_height);
-	printf("Player position: (%d, %d)\n", cub3d->player.map_x , cub3d->player.map_y);
-	printf("floor (%d, %d, %d)\n", cub3d->map.color_floor.r, cub3d->map.color_floor.g, cub3d->map.color_floor.b);
-	printf("Cell (%d, %d, %d)\n", cub3d->map.color_ceiling.r, cub3d->map.color_ceiling.g, cub3d->map.color_ceiling.b);
+	printf("Player position: (%d, %d)\n", cu
+	b3d->player.map_x , cub3d->player.map_y);
+	printf("floor (%d, %d, %d)\n", cub3d->ma
+	p.color_floor.r, cub3d->map.color_floor.g, cub3d->map.color_floor.b);
+	printf("Cell (%d, %d, %d)\n", cub3d->ma
+	p.color_ceiling.r, cub3d->map.color_ceiling.g, cub3d->map.color_ceiling.b);
 }
  */
 void free_texture(t_cub3d *cub3d)

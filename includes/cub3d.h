@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:51:38 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/13 21:14:21 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/13 21:17:12 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,7 @@ struct s_map
 {
 	int			map_width;
 	int			map_height;
-	int **grid;
-    int **visited;
+	int			**visited;
 	char		**data;
 	char		*file_path;
 	char		*texture_north;
@@ -102,8 +101,8 @@ struct s_cub3d
 char				*valid_set_texture_data(char *line, char *prefix);
 void				set_texture_data(char *line, int skip, t_cub3d **cub3d);
 void				set_color_data(int value, t_cub3d **cub3d, int which);
-int 				flood_fill(t_map *map, int x, int y, t_cub3d *cub3d);
-int 				setup_flood_fill(t_cub3d *cub3d);
+int					flood_fill(t_map *map, int x, int y, t_cub3d *cub3d);
+int					setup_flood_fill(t_cub3d *cub3d);
 int					ft_isspace(char c);
 int					check_access(char *line);
 int					open_file(t_cub3d **cub3d);
@@ -126,7 +125,7 @@ int					setup_check_data(char *line, t_cub3d **cub3d,
 int					setup_check_map(t_cub3d **cub3d, char **map_line);
 int					check_map_values_condtion(t_cub3d **cub3d, char *line,
 						int *check_empty);
-int					check_map_values(t_cub3d **cub3d, char *line, int 	y);
+int					check_map_values(t_cub3d **cub3d, char *line, int y);
 int					check_map_condtion(t_cub3d **cub3d, char *map_line,
 						int *lock, int *y);
 int					check_map_searching(t_cub3d **cub3d, char *map_line,
