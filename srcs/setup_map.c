@@ -6,35 +6,36 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 18:06:30 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/10 18:19:57 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/13 21:12:27 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int	check_values(char *line, int skip)
+int	check_values(char *line, t_cub3d **cub3d, int which)
 {
 	int		i;
 	int		value;
-	char	*tmp;
 
-	i = skip;
+	i = 0;
 	while (ft_isspace(line[i]))
 		i++;
-	tmp = ft_strchr(line + skip, line[i]);
-	if (!tmp)
-		return (-1);
-	while (ft_isdigit(tmp[i]) || tmp[i] == '+' || tmp[i] == '-')
+	while (ft_isdigit(line[i]) || line[i] == '+' || line[i] == '-')
 	{
-		value = ft_atoi(tmp + i);
+		value = ft_atoi(line + i);
 		if (value < 0 || value > 255)
 			return (-1);
-		while (ft_isdigit(tmp[i]) || tmp[i] == '+' || tmp[i] == '-')
+		set_color_data(value, cub3d, which);
+		while (ft_isdigit(line[i]) || line[i] == '+' || line[i] == '-')
 			i++;
-		if (tmp[i] == ',')
+		while (ft_isspace(line[i]))
 			i++;
-		else if (tmp[i] != '\0')
+		if (line[i] == ',')
+			i++;
+		else if (line[i] != '\0')
 			return (-1);
+		while (ft_isspace(line[i]))
+			i++;
 	}
 	return (0);
 }
@@ -70,13 +71,22 @@ void	set_map_values(t_cub3d **cub3d, char *line, int y)
 	size = ft_strlen(line);
 	while (line[x])
 	{
-		if (line[x] == 'N')
+		if (line[x] == ' ')
+			(*cub3d)->point[y][x].access = 3;
+		else if (line[x] == 'N')
 			(*cub3d)->point[y][x].access = 2;
 		else
 			(*cub3d)->point[y][x].access = line[x] - '0';
 		(*cub3d)->point[y][x].x = x;
 		(*cub3d)->point[y][x].y = y;
 		(*cub3d)->point[y][x].width = size;
+		x++;
+	}
+	while (x < (*cub3d)->map.map_width)
+	{
+		(*cub3d)->point[y][x].access = 3;
+		(*cub3d)->point[y][x].x = x;
+		(*cub3d)->point[y][x].y = y;
 		x++;
 	}
 }
@@ -104,11 +114,10 @@ int	check_map_values_condtion(t_cub3d **cub3d, char *line, int *check_empty)
 
 int	check_map_values(t_cub3d **cub3d, char *line, int y)
 {
-	int	size;
-	int	check_empty;
+	int		check_empty;
+	char	*temp;
 
 	check_empty = 1;
-	size = ft_strlen(line);
 	if (check_map_values_condtion(cub3d, line, &check_empty) == -1)
 		return (-1);
 	if (!check_empty && (*cub3d)->is_empty == 1)
@@ -117,14 +126,16 @@ int	check_map_values(t_cub3d **cub3d, char *line, int y)
 		(*cub3d)->is_empty = 1;
 	if (check_empty == 0)
 	{
-		(*cub3d)->map.map_width = size;
-		(*cub3d)->point[y] = (t_point *)malloc((sizeof(t_point)) * (size));
+		(*cub3d)->point[y] = (t_point *)malloc((sizeof(t_point))
+				* ((*cub3d)->map.map_width));
 		if (!(*cub3d)->point[y])
 		{
 			handle_error(ERO_MALLOC);
 			return (-1);
 		}
-		set_map_values(cub3d, line, y);
+		temp = ft_strtrim(line, "\t\n\r");
+		set_map_values(cub3d, temp, y);
+		free(temp);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 18:05:30 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/10 18:16:58 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/13 21:00:50 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ int	check_map_condtion(t_cub3d **cub3d, char *map_line, int *lock, int *y)
 		}
 		if ((*cub3d)->is_empty == 0)
 		{
-			(*cub3d)->player.map_y = (*y);
+			if ((*cub3d)->player.map_x != -1 && (*cub3d)->player.map_y
+				== -1 && map_line[(*cub3d)->player.map_x] == 'N')
+				(*cub3d)->player.map_y = (*y);
 			(*y)++;
 		}
 	}

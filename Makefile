@@ -9,6 +9,8 @@ SRCS = 	srcs/parsing.c				\
 		srcs/check_data.c			\
 		srcs/check_map.c			\
 		srcs/setup_map.c			\
+		srcs/flood_fill.c			\
+		srcs/setting_data.c			\
 		srcs/color_handler.c
 
 all: $(NAME)

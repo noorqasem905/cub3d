@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:00:04 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/10 16:08:48 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/13 21:13:06 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,6 @@ int	ft_isspace(char c)
 {
 	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
 		|| c == '\r');
-}
-
-void	init_cub3d(t_cub3d *cub3d, char *arg)
-{
-	cub3d->fd = -1;
-	cub3d->flag = 0;
-	cub3d->is_empty = -1;
-	cub3d->map.map_height = -1;
-	cub3d->map.map_width = -1;
-	cub3d->map.file_path = NULL;
-	cub3d->map.data = NULL;
-	cub3d->map.texture_north = NULL;
-	cub3d->map.texture_south = NULL;
-	cub3d->map.texture_west = NULL;
-	cub3d->map.texture_east = NULL;
-	cub3d->map.texture_sprite = NULL;
-/* 	cub3d->width = 0;
-	cub3d->height = 0;
-	cub3d->map_width = 0; */
-	cub3d->file_path = arg;
-/* 	cub3d->map_height = 0;
-	cub3d->map = NULL; */
-	cub3d->player.map_x = -1;
-	cub3d->player.map_y = -1;
 }
 
 void	check_name(t_cub3d *cub3d)
@@ -76,7 +52,20 @@ int	check_access(char *line)
 	return (0);
 }
 
-int	is_acceptable_file(char *line, int skip)
+char	*valid_set_texture_data(char *line, char *prefix)
+{
+	if (line == NULL && prefix == NULL)
+	{
+		handle_error(ERO_MAP);
+		return (NULL);
+	}
+	if (line == NULL)
+		return (ft_strdup(prefix));
+	free(line);
+	return (ft_strdup(prefix));
+}
+
+int	is_acceptable_file(char *line, int skip, t_cub3d **cub3d)
 {
 	char	*trimmed_line;
 	int		i;
@@ -90,6 +79,7 @@ int	is_acceptable_file(char *line, int skip)
 		handle_error(ERO_MAP);
 		return (-1);
 	}
+	set_texture_data(line, skip, cub3d);
 	if (check_access(trimmed_line) == -1)
 		return (-1);
 	return (0);

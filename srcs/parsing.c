@@ -6,11 +6,34 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:49:09 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/10 18:25:00 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/13 21:07:33 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+int	get_map_dimensions(t_cub3d **cub3d, char *line)
+{
+	int	i;
+	int	width;
+	char *temp;
+
+	i = 0;
+	width = 0;
+	temp = ft_strtrim(line, " \t\n\r");
+	if (!temp)
+		return (-1);
+	if (temp[0] == '1' || temp[0] == '0')
+	{
+		free(temp);
+		temp = ft_strtrim(line, "\n");
+		width = ft_strlen(temp);
+		if ((*cub3d)->map.map_width < width)
+			(*cub3d)->map.map_width = width;
+	}
+	free(temp);
+	return (0);
+}
 
 int	handle_read_file(t_cub3d **cub3d, int *is_complete)
 {
@@ -31,11 +54,60 @@ int	handle_read_file(t_cub3d **cub3d, int *is_complete)
 			handle_get_next_line((*cub3d)->fd, line);
 			return (-1);
 		}
+		if (get_map_dimensions(cub3d, line) == -1)
+		{
+			handle_get_next_line((*cub3d)->fd, line);
+			return (-1);
+		}
 		i++;
 		free(line);
 		line = get_next_line((*cub3d)->fd);
 	}
 	return (0);
+}
+/* 
+void print(t_cub3d *cub3d)
+{
+	int i;
+	int j;
+
+	for (i = 0; i < cub3d->map.map_height; i++)
+	{
+		for (j = 0; j < cub3d->map.map_width; j++)
+		{
+			printf("%d ", cub3d->point[i][j].access);
+		}
+		printf("\n");
+	}
+	for (i = 0; i < cub3d->map.map_height; i++)
+	{
+		for (j = 0; j < cub3d->map.map_width; j++)
+		{
+			printf("(%d, %d)", cub3d->point[i][j].x, cub3d->point[i][j].y);
+		}
+		printf("\n");
+	}
+	printf("texture_north: %s\n", cub3d->map.texture_north);
+	printf("texture_south: %s\n", cub3d->map.texture_south);
+	printf("texture_west: %s\n", cub3d->map.texture_west);
+	printf("texture_east: %s\n", cub3d->map.texture_east);
+	printf("length of map: %d\n", cub3d->map.map_width);
+	printf("height of map: %d\n", cub3d->map.map_height);
+	printf("Player position: (%d, %d)\n", cub3d->player.map_x , cub3d->player.map_y);
+	printf("floor (%d, %d, %d)\n", cub3d->map.color_floor.r, cub3d->map.color_floor.g, cub3d->map.color_floor.b);
+	printf("Cell (%d, %d, %d)\n", cub3d->map.color_ceiling.r, cub3d->map.color_ceiling.g, cub3d->map.color_ceiling.b);
+}
+ */
+void free_texture(t_cub3d *cub3d)
+{
+	if (cub3d->map.texture_north)
+		free(cub3d->map.texture_north);
+	if (cub3d->map.texture_south)
+		free(cub3d->map.texture_south);
+	if (cub3d->map.texture_west)
+		free(cub3d->map.texture_west);
+	if (cub3d->map.texture_east)
+		free(cub3d->map.texture_east);
 }
 
 int	read_file(t_cub3d **cub3d)
@@ -47,18 +119,31 @@ int	read_file(t_cub3d **cub3d)
 	i = 1;
 	is_complete = 0;
 	if (handle_read_file(cub3d, &is_complete) == -1)
+	{
+		free_texture(*cub3d);
 		return (-1);
+	}
 	if (is_complete != 6 || (*cub3d)->map.map_height == -1)
 	{
+		free_texture(*cub3d);
 		check_data_error(cub3d, ERO_MAP, 6);
 		return (-1);
 	}
 	if (check_map(cub3d) == -1)
 	{
+		free_texture(*cub3d);
 		free_map_points(*cub3d);
 		handle_error(ERO_MAP);
 		return (-1);
 	}
+	// print(*cub3d);
+	if (setup_flood_fill(*cub3d) == -1)
+	{
+		free_texture(*cub3d);
+		free_map_points(*cub3d);
+		return (-1);
+	}
+	free_texture(*cub3d);
 	free_map_points(*cub3d);
 	printf("Parsing completed successfully.\n");
 	return (0);

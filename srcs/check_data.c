@@ -6,13 +6,13 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 18:03:17 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/10 18:25:43 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/13 17:22:27 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int	handle_color_data(char *line, int skip)
+int	handle_color_data(char *line, int skip, t_cub3d **cub3d)
 {
 	int		i;
 	char	*trimmed_line;
@@ -31,7 +31,7 @@ int	handle_color_data(char *line, int skip)
 		handle_error(ERO_MAP);
 		return (-1);
 	}
-	if (check_values(trimmed_line, skip) == -1)
+	if (check_values(trimmed_line, cub3d, line[0]) == -1)
 	{
 		handle_error(ERO_MAP);
 		return (-1);
@@ -53,7 +53,7 @@ int	check_data_condition_2(char *trimmed_line, t_cub3d **cub3d
 			"C ", 2) == 0)
 	{
 		(*is_complete)++;
-		if (handle_color_data(trimmed_line, 2) == -1)
+		if (handle_color_data(trimmed_line, 2, cub3d) == -1)
 			return (-1);
 	}
 	else if ((ft_strncmp(trimmed_line, "1", 1) == 0 || ft_strncmp(trimmed_line,
@@ -86,7 +86,7 @@ int	check_data_condition(char *trimmed_line, t_cub3d **cub3d, int *is_complete)
 		|| ft_strncmp(trimmed_line, "EA ", 3) == 0)
 	{
 		(*is_complete)++;
-		if (is_acceptable_file(trimmed_line, 3))
+		if (is_acceptable_file(trimmed_line, 3, cub3d) == -1)
 			return (-1);
 	}
 	else
@@ -117,6 +117,7 @@ int	setup_check_data(char *line, t_cub3d **cub3d, int *is_complete)
 	}
 	if (check_data_condition(trimmed_line, cub3d, is_complete) == -1)
 	{
+
 		free(trimmed_line);
 		return (-1);
 	}
