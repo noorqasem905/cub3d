@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 18:10:05 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/10 18:28:41 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/15 19:24:36 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv)
 	init_cub3d(cub3d, argv[1]);
 	if (parsing_manager(&cub3d) == -1)
 	{
-		handle_error("Error: Parsing failed");
+		handle_error("Error\nParsing failed");
 		close(cub3d->fd);
 		free(cub3d);
 		return (1);

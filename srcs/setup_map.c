@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 18:06:30 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/15 18:46:52 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/15 19:19:49 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	set_map_values(t_cub3d **cub3d, char *line, int y)
 	}
 	while (x < (*cub3d)->map.map_width)
 	{
-		(*cub3d)->point[y][x].access = 0;
+		(*cub3d)->point[y][x].access = 3;
 		(*cub3d)->point[y][x].x = x;
 		(*cub3d)->point[y][x].y = y;
 		x++;

@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:51:38 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/15 19:10:04 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/15 19:23:38 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,20 @@
 # include "../libft/libft.h"
 # include "../libft/printf/ft_printf.h"
 
-# define ERO_USA        "Error: usage: ./cub3d <file.cub>"
-# define ERO_NAME_FILE  "Error: unsupported file"
-# define ERO_OPEN_FILE  "Error: failed to open file"
-# define ERO_MAP        "Error: map is invalid"
-# define ERO_MALLOC     "Error: malloc failed"
-# define ERO_CLOSED_MAP "❌ Map is NOT closed!\n"
-# define ERO_FILE       "The file is not accessible or doesn't exist"
-# define ERO_READ       "Error: read failed"
-# define ERO_CLOSE      "Error: close failed"
-# define ERO_MLX        "Error: mlx failed"
-# define ERO_MLX_WIN    "Error: mlx_new_window failed"
-# define ERO_MLX_IMG    "Error: mlx_new_image failed"
-# define ERO_MLX_ADDR   "Error: mlx_get_data_addr failed"
-# define ERO_MLX_INIT   "Error: mlx_init failed"
+# define ERO_USA        "Error\nusage: ./cub3d <file.cub>"
+# define ERO_NAME_FILE  "Error\nunsupported file"
+# define ERO_OPEN_FILE  "Error\nfailed to open file"
+# define ERO_MAP        "Error\nmap is invalid"
+# define ERO_MALLOC     "Error\nmalloc failed"
+# define ERO_CLOSED_MAP "Error\n❌ Map is NOT closed!\n"
+# define ERO_FILE       "Error\nThe file is not accessible or doesn't exist"
+# define ERO_READ       "Error\nread failed"
+# define ERO_CLOSE      "Error\nclose failed"
+# define ERO_MLX        "Error\nmlx failed"
+# define ERO_MLX_WIN    "Error\nmlx_new_window failed"
+# define ERO_MLX_IMG    "Error\nmlx_new_image failed"
+# define ERO_MLX_ADDR   "Error\nmlx_get_data_addr failed"
+# define ERO_MLX_INIT   "Error\nmlx_init failed"
 
 typedef struct s_map	t_map;
 typedef struct s_row	t_row;
