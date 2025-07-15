@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:08:17 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/13 21:22:37 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/15 19:17:09 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	**alloc_2d_array(int height, int width)
 	i = 0;
 	while (i < height)
 	{
-		arr[i] = calloc(width, sizeof(int));
+		arr[i] = ft_calloc(width, sizeof(int));
 		if (!arr[i])
 			return (NULL);
 		i++;
