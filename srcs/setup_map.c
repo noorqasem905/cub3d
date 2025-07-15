@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 18:06:30 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/13 21:12:27 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/15 18:46:52 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	check_values(char *line, t_cub3d **cub3d, int which)
 {
-	int		i;
-	int		value;
+	int	i;
+	int	value;
 
 	i = 0;
 	while (ft_isspace(line[i]))
@@ -72,7 +72,7 @@ void	set_map_values(t_cub3d **cub3d, char *line, int y)
 	while (line[x])
 	{
 		if (line[x] == ' ')
-			(*cub3d)->point[y][x].access = 3;
+			(*cub3d)->point[y][x].access = 0;
 		else if (line[x] == 'N')
 			(*cub3d)->point[y][x].access = 2;
 		else
@@ -84,7 +84,7 @@ void	set_map_values(t_cub3d **cub3d, char *line, int y)
 	}
 	while (x < (*cub3d)->map.map_width)
 	{
-		(*cub3d)->point[y][x].access = 3;
+		(*cub3d)->point[y][x].access = 0;
 		(*cub3d)->point[y][x].x = x;
 		(*cub3d)->point[y][x].y = y;
 		x++;
@@ -100,8 +100,8 @@ int	check_map_values_condtion(t_cub3d **cub3d, char *line, int *check_empty)
 	{
 		if (!ft_isspace(line[i]))
 			(*check_empty) = 0;
-		if (line[i] != '1' && line[i] != '0'
-			&& !ft_isspace(line[i]) && line[i] != 'N')
+		if (line[i] != '1' && line[i] != '0' && !ft_isspace(line[i])
+			&& line[i] != 'N')
 			return (-1);
 		else if (line[i] == 'N' && (*cub3d)->player.map_x == -1)
 			(*cub3d)->player.map_x = i;

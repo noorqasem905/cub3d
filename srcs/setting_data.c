@@ -1,16 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   settIng_data.c                                     :+:      :+:    :+:   */
+/*   setting_data.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 21:08:29 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/13 21:10:44 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/15 19:08:52 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+int	map_status(t_cub3d **cub3d)
+{
+	int	is_complete;
+
+	is_complete = 0;
+	if (handle_read_file(cub3d, &is_complete) == -1)
+	{
+		free_texture(*cub3d);
+		return (-1);
+	}
+	if (is_complete != 6 || (*cub3d)->map.map_height == -1)
+	{
+		free_texture(*cub3d);
+		check_data_error(cub3d, ERO_MAP, 6);
+		return (-1);
+	}
+	return (0);
+}
 
 void	set_texture_data(char *line, int skip, t_cub3d **cub3d)
 {
@@ -27,13 +46,17 @@ void	set_texture_data(char *line, int skip, t_cub3d **cub3d)
 		return ;
 	}
 	if (ft_strncmp(line, "NO ", 3) == 0)
-		(*cub3d)->map.texture_north = valid_set_texture_data((*cub3d)->map.texture_north , trimmed_line);//if there is more than NO or etc.. i think it will be a problem
+		(*cub3d)->map.texture_north = valid_set_texture_data
+			((*cub3d)->map.texture_north, trimmed_line);
 	else if (ft_strncmp(line, "SO ", 3) == 0)
-		(*cub3d)->map.texture_south = valid_set_texture_data((*cub3d)->map.texture_south , trimmed_line);
+		(*cub3d)->map.texture_south = valid_set_texture_data
+			((*cub3d)->map.texture_south, trimmed_line);
 	else if (ft_strncmp(line, "WE ", 3) == 0)
-		(*cub3d)->map.texture_west = valid_set_texture_data((*cub3d)->map.texture_west , trimmed_line);
+		(*cub3d)->map.texture_west = valid_set_texture_data
+			((*cub3d)->map.texture_west, trimmed_line);
 	else if (ft_strncmp(line, "EA ", 3) == 0)
-		(*cub3d)->map.texture_east = valid_set_texture_data((*cub3d)->map.texture_east , trimmed_line);
+		(*cub3d)->map.texture_east = valid_set_texture_data
+			((*cub3d)->map.texture_east, trimmed_line);
 }
 
 void	init_cub3d(t_cub3d *cub3d, char *arg)
@@ -63,8 +86,8 @@ void	init_cub3d(t_cub3d *cub3d, char *arg)
 
 void	set_color_data(int value, t_cub3d **cub3d, int which)
 {
-	static int		i;
-	static int		j;
+	static int	i;
+	static int	j;
 
 	if (which == 'F')
 	{

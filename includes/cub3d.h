@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:51:38 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/13 21:17:12 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/15 19:10:04 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,9 +133,11 @@ int					check_map_searching(t_cub3d **cub3d, char *map_line,
 int					check_map(t_cub3d **cub3d);
 int					handle_read_file(t_cub3d **cub3d, int *is_complete);
 int					read_file(t_cub3d **cub3d);
+int					map_status(t_cub3d **cub3d);
 int					read_file_handle(t_cub3d **cub3d, char *line);
 void				handle_get_next_line(int fd, char *line);
 void				check_name(t_cub3d *cub3d);
+void				free_texture(t_cub3d *cub3d);
 void				init_cub3d(t_cub3d *cub3d, char *arg);
 void				handle_error(char *_error);
 void				check_data_error(t_cub3d **cub3d, char *message, int flag);

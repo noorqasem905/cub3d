@@ -23,8 +23,8 @@ int	flood_fill(t_map *map, int x, int y, t_cub3d *cub3d)
 
 	if (is_out_of_bounds(x, y, map))
 		return (0);
-	if (cub3d->point[y][x].access == 1 ||
-		cub3d->point[y][x].access == 3 || map->visited[y][x])
+	if (cub3d->point[y][x].access == 1 || cub3d->point[y][x].access == 3
+		|| map->visited[y][x])
 		return (1);
 	map->visited[y][x] = 1;
 	result = 1;
@@ -76,8 +76,8 @@ int	setup_flood_fill(t_cub3d *cub3d)
 		handle_error(ERO_MALLOC);
 		return (-1);
 	}
-	if (!flood_fill(&cub3d->map, cub3d->player.map_x,
-			cub3d->player.map_y, cub3d))
+	if (!flood_fill(&cub3d->map, cub3d->player.map_x, cub3d->player.map_y,
+			cub3d))
 	{
 		free_2d_array(cub3d->map.visited, cub3d->map.map_height);
 		printf(ERO_CLOSED_MAP);

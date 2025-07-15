@@ -46,11 +46,11 @@ void	check_data_error(t_cub3d **cub3d, char *message, int flag)
 		handle_error(message);
 }
 
-int	check_data_condition_2(char *trimmed_line, t_cub3d **cub3d
-	, int *is_complete, int *height)
+int	check_data_condition_2(char *trimmed_line, t_cub3d **cub3d,
+		int *is_complete, int *height)
 {
-	if (ft_strncmp(trimmed_line, "F ", 2) == 0 || ft_strncmp(trimmed_line,
-			"C ", 2) == 0)
+	if (ft_strncmp(trimmed_line, "F ", 2) == 0 || ft_strncmp(trimmed_line, "C ",
+			2) == 0)
 	{
 		(*is_complete)++;
 		if (handle_color_data(trimmed_line, 2, cub3d) == -1)
@@ -89,10 +89,9 @@ int	check_data_condition(char *trimmed_line, t_cub3d **cub3d, int *is_complete)
 		if (is_acceptable_file(trimmed_line, 3, cub3d) == -1)
 			return (-1);
 	}
-	else
-		if (check_data_condition_2(trimmed_line, cub3d,
-				is_complete, &height) == -1)
-			return (-1);
+	else if (check_data_condition_2(trimmed_line, cub3d, is_complete,
+			&height) == -1)
+		return (-1);
 	if ((*cub3d)->map.map_height == -1 && height > 0)
 		(*cub3d)->map.map_height = 0;
 	(*cub3d)->map.map_height += height;
@@ -117,7 +116,6 @@ int	setup_check_data(char *line, t_cub3d **cub3d, int *is_complete)
 	}
 	if (check_data_condition(trimmed_line, cub3d, is_complete) == -1)
 	{
-
 		free(trimmed_line);
 		return (-1);
 	}

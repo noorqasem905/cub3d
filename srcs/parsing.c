@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:49:09 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/13 21:23:28 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/15 19:15:06 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ int	get_map_dimensions(t_cub3d **cub3d, char *line)
 int	handle_read_file(t_cub3d **cub3d, int *is_complete)
 {
 	char	*line;
-	int		i;
 
-	i = 1;
 	line = get_next_line((*cub3d)->fd);
 	if (!line)
 	{
@@ -59,17 +57,16 @@ int	handle_read_file(t_cub3d **cub3d, int *is_complete)
 			handle_get_next_line((*cub3d)->fd, line);
 			return (-1);
 		}
-		i++;
 		free(line);
 		line = get_next_line((*cub3d)->fd);
 	}
 	return (0);
 }
-/* 
-void print(t_cub3d *cub3d)
+
+/* void	print(t_cub3d *cub3d)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	for (i = 0; i < cub3d->map.map_height; i++)
 	{
@@ -93,15 +90,15 @@ void print(t_cub3d *cub3d)
 	printf("texture_east: %s\n", cub3d->map.texture_east);
 	printf("length of map: %d\n", cub3d->map.map_width);
 	printf("height of map: %d\n", cub3d->map.map_height);
-	printf("Player position: (%d, %d)\n", cu
-	b3d->player.map_x , cub3d->player.map_y);
-	printf("floor (%d, %d, %d)\n", cub3d->ma
-	p.color_floor.r, cub3d->map.color_floor.g, cub3d->map.color_floor.b);
-	printf("Cell (%d, %d, %d)\n", cub3d->ma
-	p.color_ceiling.r, cub3d->map.color_ceiling.g, cub3d->map.color_ceiling.b);
+	printf("Player position: (%d, %d)\n", cub3d->player.map_x
+	 , cub3d->player.map_y);
+	printf("floor (%d, %d, %d)\n", cub3d->map.color_floor.r
+	, cub3d->map.color_floor.g, cub3d->map.color_floor.b);
+	printf("Cell (%d, %d, %d)\n", cub3d->map.color_ceiling.r,
+	 cub3d->map.color_ceiling.g, cub3d->map.color_ceiling.b);
 }
  */
-void free_texture(t_cub3d *cub3d)
+void	free_texture(t_cub3d *cub3d)
 {
 	if (cub3d->map.texture_north)
 		free(cub3d->map.texture_north);
@@ -115,23 +112,8 @@ void free_texture(t_cub3d *cub3d)
 
 int	read_file(t_cub3d **cub3d)
 {
-	int		i;
-	int		is_complete;
-	char	*line;
-
-	i = 1;
-	is_complete = 0;
-	if (handle_read_file(cub3d, &is_complete) == -1)
-	{
-		free_texture(*cub3d);
+	if (map_status(cub3d) == -1)
 		return (-1);
-	}
-	if (is_complete != 6 || (*cub3d)->map.map_height == -1)
-	{
-		free_texture(*cub3d);
-		check_data_error(cub3d, ERO_MAP, 6);
-		return (-1);
-	}
 	if (check_map(cub3d) == -1)
 	{
 		free_texture(*cub3d);
@@ -139,7 +121,6 @@ int	read_file(t_cub3d **cub3d)
 		handle_error(ERO_MAP);
 		return (-1);
 	}
-	// print(*cub3d);
 	if (setup_flood_fill(*cub3d) == -1)
 	{
 		free_texture(*cub3d);

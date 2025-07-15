@@ -61,9 +61,9 @@ int	find_std_color_formial(char *line, int *lock, int *index)
 
 int	handle_color_formality(char *line)
 {
-	int		i;
-	int		ret;
-	int		lock;
+	int	i;
+	int	ret;
+	int	lock;
 
 	i = 0;
 	ret = 0;
@@ -80,8 +80,7 @@ int	handle_color_formality(char *line)
 			if (ret == 1)
 				continue ;
 		}
-		else if ((line[i] != '+' && line[i] != '-')
-			|| !ft_isdigit(line[i + 1]))
+		else if ((line[i] != '+' && line[i] != '-') || !ft_isdigit(line[i + 1]))
 			return (-1);
 		i++;
 	}

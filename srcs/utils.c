@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:00:04 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/13 21:13:06 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/15 19:03:59 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_isspace(char c)
 void	check_name(t_cub3d *cub3d)
 {
 	char	*arg;
-	int	i;
+	int		i;
 
 	i = 0;
 	arg = cub3d->file_path;
@@ -34,7 +34,7 @@ void	check_name(t_cub3d *cub3d)
 	while (arg[i])
 		i++;
 	if (arg[i - 1] != 'b' || arg[i - 2] != 'u' || arg[i - 3] != 'c' || arg[i
-		- 4] != '.')
+			- 4] != '.')
 	{
 		cub3d->flag = 1;
 		handle_error(ERO_NAME_FILE);

@@ -6,7 +6,7 @@
 /*   By: nqasem <nqasem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 18:05:30 by nqasem            #+#    #+#             */
-/*   Updated: 2025/07/13 21:00:50 by nqasem           ###   ########.fr       */
+/*   Updated: 2025/07/15 19:09:19 by nqasem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,14 @@ int	check_map_condtion(t_cub3d **cub3d, char *map_line, int *lock, int *y)
 		}
 		if ((*cub3d)->is_empty == 0)
 		{
-			if ((*cub3d)->player.map_x != -1 && (*cub3d)->player.map_y
-				== -1 && map_line[(*cub3d)->player.map_x] == 'N')
+			if ((*cub3d)->player.map_x != -1 && (*cub3d)->player.map_y == -1
+				&& map_line[(*cub3d)->player.map_x] == 'N')
 				(*cub3d)->player.map_y = (*y);
 			(*y)++;
 		}
 	}
-	else if (ft_strncmp(map_line, "1", 1) == 0
-		|| ft_strncmp(map_line, "0", 1) == 0
-		|| ft_strncmp(map_line, " ", 1) == 0)
+	else if (ft_strncmp(map_line, "1", 1) == 0 || ft_strncmp(map_line, "0",
+			1) == 0 || ft_strncmp(map_line, " ", 1) == 0)
 	{
 		(*lock) = 1;
 		return (1);
@@ -86,7 +85,6 @@ int	check_map_searching(t_cub3d **cub3d, char *map_line, int *lock, int *y)
 {
 	int		ret;
 	int		i;
-	char	*trimmed_line;
 
 	i = 0;
 	(*cub3d)->is_empty = 0;
